@@ -1,10 +1,4 @@
-import React, {
-  useState,
-  useMemo,
-  useReducer,
-  useEffect,
-  useCallback
-} from "react";
+import { useState, useMemo, useReducer, useEffect, useCallback } from "react";
 import styled from "styled-components";
 import { Tower, TowersWrapper } from "./components";
 import { buildDiskSizesForLvls } from "./disk-sizes";
@@ -18,6 +12,15 @@ const Select = styled.select`
 const ButtonsWrapper = styled.div`
   display: flex;
   margin: 5px;
+
+  button {
+    background-color: #eee;
+    padding: 8px 16px;
+    outline: none;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+  }
 
   > button:not(:last-child) {
     margin-right: 10px;
@@ -50,13 +53,13 @@ const initialDisksCount = 3;
 const initialGameState = {
   disks: [],
   towers: [[], [], []],
-  userMoves: 0
+  userMoves: 0,
 };
 
 function buildDisksState(disksCount, disksScheme) {
   return Array.from({ length: disksCount }, (_, index) => ({
     id: index,
-    ...disksScheme[index + 1]
+    ...disksScheme[index + 1],
   }));
 }
 
@@ -79,29 +82,29 @@ function disksReducer(state, action) {
         ...initialGameState,
         disks: action.payload,
         towers: towersUpdater(state.towers, {
-          [FIRST_TOWER]: () => action.payload
-        })
+          [FIRST_TOWER]: () => action.payload,
+        }),
       };
     case "MOVE_DISK":
       const { diskId, fromTower, toTower } = action.payload;
-      const disk = state.towers[fromTower].find(disk => disk.id === diskId);
+      const disk = state.towers[fromTower].find((disk) => disk.id === diskId);
 
       return {
         ...state,
         userMoves: state.userMoves + 1,
         towers: towersUpdater(state.towers, {
-          [fromTower]: disks => disks.filter(disk => disk.id !== diskId),
-          [toTower]: disks => [disk, ...disks],
-          rest: disks => disks
-        })
+          [fromTower]: (disks) => disks.filter((disk) => disk.id !== diskId),
+          [toTower]: (disks) => [disk, ...disks],
+          rest: (disks) => disks,
+        }),
       };
     case "RESTART":
       return {
         ...initialGameState,
         disks: state.disks,
         towers: towersUpdater(state.towers, {
-          [FIRST_TOWER]: () => state.disks
-        })
+          [FIRST_TOWER]: () => state.disks,
+        }),
       };
     default:
       return state;
@@ -123,7 +126,7 @@ function useCompleteState(disksCount, towers, cb) {
 
 function useInitialState(disksCount, towers, cb) {
   const isInitial = disksCount === towers[FIRST_TOWER].length;
-  console.log({ disksCount, len: towers[FIRST_TOWER].length });
+
   useEffect(() => {
     if (isInitial) {
       cb();
@@ -139,23 +142,17 @@ const DISKS_VARRIANTS = [3, 4, 5, 6, 7, 8];
 export function App() {
   const [disksCount, setDisksCount] = useState(initialDisksCount);
   const [gameState, dispatch] = useReducer(disksReducer, initialGameState);
-  const disksScheme = useMemo(() => buildDiskSizesForLvls(disksCount), [
-    disksCount
-  ]);
+  const disksScheme = useMemo(
+    () => buildDiskSizesForLvls(disksCount),
+    [disksCount]
+  );
 
   const onMoveDisk = useCallback(({ diskId, fromTower, toTower }) => {
     dispatch({ type: "MOVE_DISK", payload: { fromTower, toTower, diskId } });
   }, []);
 
-  const {
-    inProgress,
-    isPause,
-    solve,
-    clearIntervalId,
-    pause,
-    play,
-    restart
-  } = useSolver(gameState.towers, onMoveDisk);
+  const { inProgress, isPause, solve, clearIntervalId, pause, play, restart } =
+    useSolver(gameState.towers, onMoveDisk);
 
   const onRestart = useCallback(() => {
     restart();
@@ -179,7 +176,7 @@ export function App() {
   useEffect(() => {
     dispatch({
       type: "BUILD_DISKS_STATE",
-      payload: buildDisksState(disksCount, disksScheme)
+      payload: buildDisksState(disksCount, disksScheme),
     });
   }, [disksCount, disksScheme]);
 
@@ -201,13 +198,13 @@ export function App() {
       <p>
         Number of disks
         <Select
-          onChange={event => {
+          onChange={(event) => {
             restart();
             setDisksCount(Number.parseInt(event.target.value));
           }}
           value={disksCount}
         >
-          {DISKS_VARRIANTS.map(item => (
+          {DISKS_VARRIANTS.map((item) => (
             <option value={item} key={item}>
               {item}
             </option>

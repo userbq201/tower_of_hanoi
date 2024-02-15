@@ -63,6 +63,6 @@ export function useSolver(towers, moveDisk) {
     play,
     clearIntervalId,
     solve,
-    restart
+    restart,
   };
 }

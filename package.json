@@ -1,42 +1,36 @@
 {
-  "name": "towers",
-  "version": "0.1.0",
+  "name": "vite-project",
   "private": true,
-  "dependencies": {
-    "color": "^3.1.2",
-    "react": "^16.10.2",
-    "react-dnd": "^9.4.0",
-    "react-dnd-html5-backend": "^9.4.0",
-    "react-dom": "^16.10.2",
-    "react-scripts": "3.2.0",
-    "styled-components": "^4.4.0"
-  },
-  "author": "Shelomanov Dmitry <userbq201@mail.ru>",
-  "homepage": "https://userbq201.github.io/tower_of_hanoi",
+  "version": "0.0.0",
+  "type": "module",
+  "author": "Shelomanov Dmitry <dmitryshelomanov@mail.ru>",
+  "homepage": "https://dmitryshelomanov.github.io/tower_of_hanoi",
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject",
+    "dev": "vite",
+    "build": "vite build",
+    "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
+    "preview": "vite preview",
     "predeploy": "npm run build",
-    "deploy": "npx gh-pages -d build"
+    "deploy": "npx gh-pages -d dist"
   },
-  "eslintConfig": {
-    "extends": "react-app"
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
+  "dependencies": {
+    "color": "^4.2.3",
+    "react": "^18.2.0",
+    "react-dnd": "^16.0.1",
+    "react-dnd-html5-backend": "^16.0.1",
+    "react-dnd-touch-backend": "^16.0.1",
+    "react-dom": "^18.2.0",
+    "styled-components": "^6.1.8"
   },
   "devDependencies": {
-    "gh-pages": "^2.1.1"
+    "@types/react": "^18.2.55",
+    "@types/react-dom": "^18.2.19",
+    "@vitejs/plugin-react": "^4.2.1",
+    "eslint": "^8.56.0",
+    "eslint-plugin-react": "^7.33.2",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "eslint-plugin-react-refresh": "^0.4.5",
+    "gh-pages": "^6.1.1",
+    "vite": "^5.1.0"
   }
 }

@@ -7,13 +7,13 @@ export function alghorithmRunner(disksState) {
   const disks = [
     disksState[FIRST_TOWER].slice(0), // FIRST_TOWER
     disksState[SECOND_TOWER].slice(0), // SECOND_TOWER
-    disksState[THIRD_TOWER].slice(0) // THIRD_TOWER
+    disksState[THIRD_TOWER].slice(0), // THIRD_TOWER
   ];
 
   function getHelpTower(fromTower, toTower) {
     const arr1 = [FIRST_TOWER, SECOND_TOWER, THIRD_TOWER];
     const arr2 = [fromTower, toTower];
-    const difference = arr1.filter(x => !arr2.includes(x));
+    const difference = arr1.filter((x) => !arr2.includes(x));
 
     return difference[0];
   }

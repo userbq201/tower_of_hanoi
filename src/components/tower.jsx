@@ -1,22 +1,25 @@
-import React from "react";
 import styled from "styled-components";
 import { useDrop } from "react-dnd";
 import { Disk } from "./disk";
-import { isTSEnumMember } from "@babel/types";
 
 const TowerPlane = styled.div`
   display: block;
-  width: 4px;
+  width: 8px;
   height: 200px;
-  background-color: black;
   position: absolute;
+  background-color: #eee;
+  border: 1px solid black;
+  border-radius: 4px;
 `;
 
 const TowerBottomLine = styled.div`
   display: block;
   width: 200px;
-  height: 4px;
-  background-color: black;
+  height: 8px;
+  background-color: #eee;
+  border: 1px solid black;
+  border-radius: 4px;
+  z-index: 2;
 `;
 
 const TowerContainer = styled.div`
@@ -28,9 +31,20 @@ const TowerContainer = styled.div`
   height: 204px;
 `;
 
+const Description = styled.p`
+  position: absolute;
+  transform: translateY(35px);
+`;
+
 export const TowersWrapper = styled.div`
   display: flex;
   margin: 15px 0;
+  gap: 16px;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    gap: 48px;
+  }
 
   ${TowerContainer} {
     margin-right: 25px;
@@ -38,19 +52,19 @@ export const TowersWrapper = styled.div`
 `;
 
 export function Tower({ children, id, disks = [], onMoveDisk }) {
-  const [{ canDrop, isOver }, drop] = useDrop({
+  const [_, drop] = useDrop({
     accept: "disk",
     drop: () => ({ id }),
-    canDrop: item => {
+    canDrop: (item) => {
       if (disks.length > 0) {
         return disks[0].id > item.id;
       }
 
       return true;
     },
-    collect: monitor => ({
-      isOver: monitor.isOver()
-    })
+    collect: (monitor) => ({
+      isOver: monitor.isOver(),
+    }),
   });
 
   return (
@@ -68,6 +82,8 @@ export function Tower({ children, id, disks = [], onMoveDisk }) {
         />
       ))}
       <TowerBottomLine />
+      {id === 2 && <Description>Target</Description>}
+      {id === 0 && <Description>Source</Description>}
     </TowerContainer>
   );
 }

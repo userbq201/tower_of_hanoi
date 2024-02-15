@@ -17,8 +17,8 @@ export function buildDiskSizesForLvls(maxLvl = 4) {
           ...acc,
           [index + 1]: {
             width: acc[index].width + CONSTANT_SIZE,
-            color: generateColor()
-          }
+            color: generateColor(),
+          },
         };
       }
 
